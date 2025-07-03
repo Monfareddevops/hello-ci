@@ -1,22 +1,16 @@
 pipeline {
-    agent any
-    stages {
-        stage('Preparation') {
-            steps {
-                echo 'Cloning source...'
-                checkout scm
-            }
-        }
-        stage('Run Script') {
-            steps {
-                sh 'chmod +x hello.sh && ./hello.sh'
-            }
-        }
-        stage('Archive') {
-            steps {
-                sh 'tar -czf output.tar.gz hello.sh'
-                archiveArtifacts artifacts: 'output.tar.gz'
-            }
-        }
+  agent {
+    docker {
+      image 'docker:20.10-dind'
+      args '--privileged -v /var/lib/docker'
     }
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker version'
+        sh 'docker build -t myapp .'
+      }
+    }
+  }
 }
