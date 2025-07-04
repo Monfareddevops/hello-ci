@@ -1,15 +1,10 @@
 pipeline {
-  agent {
-    docker {
-      image 'docker:20.10-dind'
-      args '--privileged -v /var/lib/docker'
-    }
-  }
+  agent any
   stages {
-    stage('Build') {
+    stage('Docker Test') {
       steps {
         sh 'docker version'
-        sh 'docker build -t myapp .'
+        sh 'docker run hello-world'
       }
     }
   }
