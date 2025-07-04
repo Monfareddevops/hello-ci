@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Docker Test') {
+    stage('Test Docker') {
       steps {
         sh 'docker version'
         sh 'docker run hello-world'
